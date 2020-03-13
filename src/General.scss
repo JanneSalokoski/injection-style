@@ -1,0 +1,58 @@
+@use 'src/defaults';
+@use 'sass:color';
+
+input {
+    width: calc(6em + 1px); // DEBUG
+
+    color: defaults.$color-gray;
+
+    font-weight: bold;
+
+    user-select: none;
+
+    @include defaults.container;    
+    @include defaults.button-inactive;
+
+    &:hover {
+        @include defaults.button-hover;
+    }
+
+    &:active {
+        @include defaults.button-active;
+    }
+
+    &.primary {
+        @include defaults.colored-button(defaults.$color-blue);
+    }
+
+    &.secondary {
+        @include defaults.colored-button(defaults.$color-red);
+    }
+
+    &:focus {
+        outline: none !important;
+        outline-style: none;
+    }
+
+    &::-moz-focus-inner {
+        border: 0;
+    }
+
+    &[type="text"], &[type="number"] {
+        width: calc(12em + 1px); // DEBUG
+
+        background-color: defaults.$color-white;
+        color: defaults.$color-gray;
+        font-weight: normal;
+
+        &:hover {
+            border-color: color.adjust(defaults.$color-gray, $lightness: -20%);
+            color: color.adjust(defaults.$color-gray, $lightness: -20%);
+        }
+
+        &:active {
+            border-color: color.adjust(defaults.$color-gray, $lightness: -20%);
+            background-color: color.adjust(defaults.$color-white, $lightness: -2.5%);
+        }
+    }
+}

@@ -1,0 +1,290 @@
+@use 'src/defaults';
+@use 'sass:color';
+
+div.Sidebar {
+    position: absolute;
+
+    top: 2.5em;
+    left: 0px;
+
+    height: calc(100% - 2em - 2.5em);
+    width: calc(100% - 2em);
+
+    padding: 1em;
+    background-color: color.adjust(defaults.$color-black, $alpha: -0.1, $lightness: -15%);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+
+    transform: translateX(-100%);
+    transition-property: transform;
+    transition-duration: 400ms;
+
+    &.visible {
+        transform: translateX(0%);
+        transition-property: transform;
+        transition-duration: 400ms;
+    }
+
+    &.right {
+        transform: translateX(100%);
+
+        &.visible {
+            transform: translateX(0%);
+        }
+    }
+
+    div.header {
+        margin-bottom: 1em;
+    }
+}
+
+div.TransactionList {
+    table {
+        width: 100%;
+
+        border-collapse: collapse;
+
+        td, th {
+            text-align: left;
+
+            @include defaults.padded;
+            @include defaults.borders;
+            border-color: color.adjust(defaults.$color-gray, $alpha: -0.5);
+        }
+
+        td.time, td.amount, th.time, th.amount {
+            text-align: right;
+
+            @include defaults.numeric;
+        }
+
+        th {
+            background-color: color.adjust(defaults.$color-gray, $alpha: -0.5);
+        }
+
+        tbody > tr:nth-child(even) {
+            background-color: color.adjust(defaults.$color-gray, $alpha: -0.75);
+        }
+    }
+}
+
+div.App {
+    //max-height: calc(2436px / 3);
+    //max-width: calc(1125px / 3);
+
+    height: 100vh;
+    width: 100vw;
+    max-height: 100vh;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 2.5em auto 3.25em;
+    grid-template-areas: "header-area" "main-area" "action-area";
+}
+
+div.Header {
+    grid-area: header-area;
+
+    display: grid;
+    grid-template-columns: 4em 1fr 4em;
+    grid-template-rows: 1fr;
+    grid-template-areas: "left-button-area" "title-area" "right-button-area";
+
+
+    @include defaults.padded;
+    @include defaults.dark_bg;
+
+    div.title {
+        font-weight: bold;
+        text-align: center;
+        padding-top: 0.2em;
+    }
+
+    div.settings-button {
+        text-align: right;
+        color: red;
+    }
+}
+
+
+div.SvgSymbol {
+    width: 1.5em;
+    height: 1.5em;
+
+    display: inline-block;
+
+    fill: none;
+    stroke: color.adjust(defaults.$color-white, $lightness: -25%);
+    stroke-width: 6px;
+    transition: 400ms;
+
+    &:hover {
+        stroke: color.adjust(defaults.$color-white, $lightness: -10%);
+        transition: 400ms;
+    }
+
+    &:active {
+        stroke: color.adjust(defaults.$color-white, $lightness: 0%);
+        transition: 400ms;
+    }
+
+    svg {
+        display: inline-block;
+    }
+}
+
+
+div.Search {
+    @include defaults.light_bg;
+
+    text-align: center;
+
+    input#searchbar {
+        width: calc(100% - 1em - 2px);
+    }
+
+    input#cancel {
+        margin-right: defaults.$default-padding / 2;
+    }
+
+    input#submit {
+        margin-left: defaults.$default-padding / 2;
+    }
+}
+
+div.MainView {
+    @include defaults.light_bg;
+    @include defaults.padded;
+    padding-bottom: 0px;
+}
+
+div.CustomerInfo {
+    margin-top: defaults.$default-padding;
+    text-align: center;
+
+    div {
+        display: inline-block;
+
+        &:not(:first-child) {
+            margin-left: defaults.$default-padding;
+        }
+    }
+
+    div.CustomerName {
+        @include defaults.container;
+        @include defaults.button-inactive;
+        color: color.adjust(defaults.$color-gray, $lightness: -10%);
+
+        width: calc(50% - 1em);
+    }
+
+    div.CustomerSaldo {
+        @include defaults.container;
+        @include defaults.numeric;
+        @include defaults.button-inactive;
+        background-color: defaults.$color-white;
+
+        width: calc(30% - 1.5em);
+    }
+
+    div.TransactionButton {
+        @include defaults.container;
+        @include defaults.button-inactive;
+        @include defaults.colored-button(defaults.$color-blue);
+        font-weight: bold;
+
+        width: calc(20% - 2em);
+    }
+}
+
+div.ProductList {
+    margin-top: defaults.$default-padding;
+    text-align: center;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+
+    max-height: calc(100vh - 11.75em - 1px);
+    overflow-y: scroll;
+
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+    ::-webkit-scrollbar { 
+        display: none; /* Chrome Safari */
+    }
+
+    div.ProductItem {
+        display: inline-block;
+
+        height: 4em;
+
+        @include defaults.container;
+        @include defaults.button-inactive;
+
+        color: color.adjust(defaults.$color-gray, $lightness: -25%);
+        text-align: center;
+
+        margin-bottom: defaults.$default-padding;
+        margin-right: defaults.$default-padding;
+
+        &:nth-child(3n+3) {
+            margin-right: 0px;
+        }
+
+        span {
+            display: block;
+
+            user-select: none;
+
+            &.ProductName {
+                font-weight: bold;
+                margin-bottom: defaults.$default-padding;
+            }
+
+            &.ProductPrice {
+                @include defaults.numeric;
+            }
+        }
+
+        &:hover {
+            @include defaults.button-hover;
+        }
+
+        &:active {
+            @include defaults.button-active;
+        }
+    }
+}
+
+div.Actions {
+    grid-area: action-area;
+
+    @include defaults.light_bg;
+    @include defaults.padded;
+    padding-bottom: 0px;
+
+    input {
+        width: calc(50% - 0.25em);
+
+        &:not(:first-child) {
+            margin-left: defaults.$default-padding;
+        }
+    }
+}
+
+div.Main {
+    grid-area: main-area;
+}
+
+div.Footer {
+    grid-area: footer-area;
+
+    @include defaults.padded;
+    @include defaults.dark_bg;
+
+
+    text-align: center;
+
+}
+

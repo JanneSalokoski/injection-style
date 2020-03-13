@@ -1,0 +1,107 @@
+@use 'sass:color';
+
+$background-color-light: hsl(0, 0%, 95%);
+$background-color-dark: hsl(0, 0%, 5%);
+
+$accent-color-light: #E5989B;
+$accent-color: #d65b60;
+
+$color-black: hsl(205, 45%, 10%);
+//$color-white: hsl(21, 30%, 100%);
+$color-white: white;
+
+$color-gray: hsl(0, 0%, 50%);
+
+$color-blue: darkturquoise;
+$color-red: crimson;
+
+@mixin light_bg {
+    background-color: $background-color-light;
+    color: $color-black;
+}
+@mixin dark_bg {
+    background-color: $background-color-dark;
+    color: $color-white;
+}
+
+
+/* Fonts */
+@mixin numeric {
+    font-family: 'Fira Mono', monospace;
+}
+
+/* Activity */ 
+@mixin button-inactive {
+    background-color: color.adjust($color-gray, $lightness: +30%);
+    transition: 100ms;
+
+    user-select: none;
+}
+
+@mixin button-hover {
+    background-color: color.adjust($color-gray, $lightness: +25%);
+    transition: 100ms;
+
+    user-select: none;
+}
+
+@mixin button-active {
+    background-color: color.adjust($color-gray, $lightness: +20%);
+    transition: 100ms;
+
+    user-select: none;
+}
+
+@mixin colored-button($color) {
+    background-color: $color;
+    color: color.adjust($color, $lightness: +50%);
+    border-color: color.adjust($color, $lightness: -10%);
+
+    user-select: none;
+
+    &:hover {
+        color: color.adjust($color, $lightness: +60%);
+        border-color: color.adjust($color, $lightness: -15%);
+
+        box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.25);
+        text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.25);
+    }
+
+    &:active {
+        background-color: color.adjust($color, $lightness: -2.5%);
+        border-color: color.adjust($color, $lightness: -20%);
+    }
+}
+
+$default-padding: 0.5em;
+@mixin padded {
+    padding: $default-padding;
+    width: calc(100% - ($default-padding)*2);
+}
+
+
+/* Containers */
+$default-rounding: 4px;
+@mixin rounded {
+    border-radius: $default-rounding;
+}
+
+$default-border: 1px solid $color-gray;
+@mixin borders {
+    border: $default-border;
+}
+
+
+@mixin rounded-borders {
+    @include borders;
+    @include rounded;
+}
+
+@mixin container {
+    @include light_bg;
+    @include rounded-borders;
+    @include padded;
+}
+
+
+
