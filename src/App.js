@@ -56,6 +56,15 @@ function SettingsIcon() {
     );
 }
 
+function Curtain(props) {
+    console.log(props.visible);
+    return (
+        <div className={`Curtain ${props.visible ? "visible" : ""}`}>
+            {props.children}
+        </div>
+    );
+}
+
 function Sidebar(props) {
     return (
         <div className={`Sidebar ${props.position} ${props.visible ? "visible" : ""}`}>
@@ -135,11 +144,46 @@ function ProductList(props) {
     );
 }
 
-function Actions() {
+function Dialog(props) {
+    return (
+        <div className={`Dialog ${props.className}`}>
+            <h2 className="title">{props.title}</h2>
+            <div className="inputs">
+                {props.children}
+            </div>
+            <div className="controls">
+                <input type="button" className="secondary" value="Cancel" onClick={""} />
+                <input type="button" className="primary" value="Create" onClick={""} />
+            </div>
+        </div>
+    );
+}
+
+function NewProductDialog(props) {
+    return (
+        <Dialog title="Create a new product" className="new_product">
+            <div>
+                <span className="label">Name:</span>
+                <input type="text" />
+            </div>
+        </Dialog>
+    );
+}
+
+function Actions(props) {
+    function handleNewCustomerButton(event) {
+        props.setCurtain(true); 
+    }
+
+    function handleNewProductButton(event) {
+        props.setDialog(<NewProductDialog />);
+        props.setCurtain(true); 
+    }
+
     return (
         <div className="Actions">
-            <input type="button" className="primary" value="New customer" />
-            <input type="button" className="primary" value="New product" />
+            <input type="button" className="primary" value="New customer" onClick={handleNewCustomerButton} />
+            <input type="button" className="primary" value="New product" onClick={handleNewProductButton} />
         </div>
     );
 }
@@ -275,7 +319,8 @@ function App() {
                 "amount": "1.50€",
             },
         ],
-        selected_customer: {}
+        selected_customer: {},
+        dialog: undefined
     });
 
     const [ leftSidebar, setLeftSidebar ] = useState(false);
@@ -288,9 +333,14 @@ function App() {
         setRightSidebar(!rightSidebar);
     }
 
+    const [ curtain, setCurtain ] = useState(false);
+
     useEffect(() => {
         setState(s => ({...s, selected_customer: s.customers[0]}));
     }, []);
+
+    const [ dialog, setDialog ] = useState(undefined);
+    console.log(dialog);
 
 return (
     <div className="wrapper">
@@ -302,14 +352,18 @@ return (
             <span>Moi</span>
         </Sidebar>
 
+        <Curtain visible={curtain}>
+            {dialog}
+        </Curtain>
+
         <div className="App">
             <Header toggleLeftSidebar={toggleLeftSidebar} toggleRightSidebar={toggleRightSidebar} />
             <div className="MainView Main">
                 <Search />
-                <CustomerInfo customer={state.selected_customer} />
-                <ProductList products={state.products} />
+                <CustomerInfo customer={state.selected_customer} setCurtain={setCurtain} />
+                <ProductList products={state.products} setCurtain={setCurtain} />
             </div>
-            <Actions />
+            <Actions setCurtain={setCurtain} setDialog={setDialog}/>
         </div>
     </div>
   );

@@ -1,6 +1,71 @@
 @use 'src/defaults';
 @use 'sass:color';
 
+div.Curtain {
+    position: absolute;
+
+    top: 0px;
+    left: 0px;
+
+    height: calc(100% - 4em);
+    width: calc(100% - 4em);
+
+    padding: 2em;
+    background-color: color.adjust(defaults.$color-black, $alpha: -0.1, $lightness: -15%);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+
+    display: none;
+
+    &.visible {
+        display: block;
+    }
+
+    div.header {
+        margin-bottom: 1em;
+    }
+}
+
+div.Dialog {
+    border: 1px dashed gray;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2em;
+
+    padding: defaults.$default-padding;
+    width: calc(100% - 4em);
+
+    div.inputs {
+        margin-top: defaults.$default-padding;
+        margin-bottom: defaults.$default-padding;
+
+        input {
+           height: 1em; 
+           width: initial;
+           
+           background-color: hsla(0, 0%, 0%, 0);
+
+           padding: 0.1em;
+           margin-left: 0.5em;
+
+           border-top: none;
+           border-left: none;
+           border-right: none;
+           border-bottom-width: 1px;
+           border-radius: 0px;
+        }
+    }
+
+    div.controls {
+        text-align: center;
+
+        input:not(:first-child) {
+            margin-left: defaults.$default-padding;
+        }
+    }
+}
+
 div.Sidebar {
     position: absolute;
 
